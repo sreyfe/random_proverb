@@ -1,0 +1,51 @@
+<HTML dir="rtl">
+	<head> 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+ .center {
+	   position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding-right: 30px;
+  padding-left: 10px;
+}
+ h1{
+	 font-size: 80px;
+ }
+ h2 {
+	 font-size: 40px;
+ }
+</style>
+	</head>
+	<body>
+		<div class="center">
+			<h1 id="hebrew"></h1>
+		<h2 id="yiddish"></h2>
+		</div>
+		<script>
+			r = 0
+			$(function () {
+				$.get('https://www.sefaria.org/api/texts/random?titles=Proverbs', function (response) {
+					document.getElementById("hebrew").innerHTML = response.he.replace(/[\u0591-\u05af]/g, '');
+					console.log(response)
+					r = response
+					chapter = response.sections[0]
+					verse = response.sections[1]
+
+			yi_query = `https://www.sefaria.org/api/v3/texts/Proverbs.${chapter}.${verse}?version=yiddish`
+			console.log(yi_query)
+
+			$(function () {
+				$.get(yi_query, function (yi_response) {
+					document.getElementById("yiddish").innerHTML = yi_response.versions[0].text
+				})
+				})
+
+			})
+
+			})
+		</script>
+	</body>
+</HTML>
